@@ -74,13 +74,59 @@ func getPosition() -> [Int] {
 func applyHand(var board: [[Int]], x: Int, y: Int, val: Int) -> [[Int]] {
     if board[x][y] == 0 {
         board[x][y] = val
-        // TODO: ひっくりかえす
-        return board
+        var turned = false
+        var buff: [[Int]] = [[]]
+        for xi in [1, 0, -1] {
+            for yi in [1, 0, -1] {
+                if yi == 0 && xi == 0 {
+                    continue
+                }
+                buff = findTurn(board, x, y, [xi, yi])
+                if buff.count > 0 {
+                    board = buff
+                    turned = true
+                }
+            }
+        }
+        if turned {
+            return board
+        } else {
+            return []
+        }
     } else {
-        return [[]]
+        return []
     }
 }
 
+
+func findTurn(var board: [[Int]], x: Int, y:Int, dir:[Int]) -> [[Int]] {
+    var stroke = 0
+    var closed = false
+    var hand = board[x][y]
+    for i in 1..<8 {
+        var xx = x + i*dir[0]
+        var yy = y + i*dir[1]
+        // If out of range, then break out
+        if xx < 0 || xx > 7 || yy < 0 || yy > 7 {
+            break
+        }
+        // If the same side's stone exists, break out
+        if board[xx][yy] == hand {
+            closed = true
+        } else if board[xx][yy] == 0 {
+            break
+        } else {
+            stroke++
+            board[xx][yy] = hand
+        }
+    }
+    if stroke > 0 && closed {
+        return board
+    } else {
+        return []
+    }
+    
+}
 
 
 /* MAIN EXECUTION UNIT STARTS HERE */
@@ -107,6 +153,7 @@ while true {
     
     if next.count > 0 {
         printBoard(next)
+        board = next
         whose += 1
         if whose == 3 {
             whose = 1
