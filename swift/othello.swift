@@ -47,7 +47,7 @@ func readNumbers() -> [Int] {
         // ignore comma
         if a != 44 {
             // Only account for digits
-            if a > 48 && a < 58 {
+            if a > 47 && a < 58 {
                 s.append(Int(a)-48)
             }
         }
@@ -69,17 +69,18 @@ func getPosition() -> [Int] {
 
 /**
  * Takes the current board state and hand info and computes the result.
- * Retuns true if the hand was legal, false otherwise.
+ * Retuns an empty array if the result is illegal.
  */
-func applyHand(var board: [[Int]], x: Int, y: Int, val: Int) -> Bool {
+func applyHand(var board: [[Int]], x: Int, y: Int, val: Int) -> [[Int]] {
     if board[x][y] == 0 {
         board[x][y] = val
         // TODO: ひっくりかえす
-        return true
+        return board
     } else {
-        return false
+        return [[]]
     }
 }
+
 
 
 /* MAIN EXECUTION UNIT STARTS HERE */
@@ -102,11 +103,10 @@ while true {
     yx = getPosition()
     x = yx[1]
     y = yx[0]
-    legal = applyHand(board, x, y, whose)
+    var next: [[Int]] = applyHand(board, x, y, whose)
     
-    if legal {
-//        board[x][y] = whose
-        printBoard(board)
+    if next.count > 0 {
+        printBoard(next)
         whose += 1
         if whose == 3 {
             whose = 1
