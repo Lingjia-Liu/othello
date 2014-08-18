@@ -27,6 +27,27 @@ func getInitialBoard() -> [[Int]] {
     return board
 }
 
+func valToPic(el: Int) -> String {
+    switch el {
+    case 0:
+        return " □ "
+    case 1:
+        return " ● "
+    case 2:
+        return " ◯ "
+    default:
+        return ""
+    }
+}
+
+func printRow(var row: [Int]) {
+    var line = ""
+    for el in row {
+        line += valToPic(el)
+    }
+    println(line)
+}
+
 /**
  * Prints the board, prettified.
  */
@@ -34,7 +55,7 @@ func printBoard(board: [[Int]]) {
     var black = 0
     var white = 0
     for row in board {
-        println(row)
+        printRow(row)
         for el in row {
             if el == 1 {
                 black++
@@ -156,7 +177,8 @@ printBoard(board)
 while true {
     println("")
     println("-------")
-    println("\(whose)の番です。")
+    var pic = valToPic(whose)
+    println("\(pic)の番です。")
     yx = getPosition()
     x = yx[1]
     y = yx[0]
