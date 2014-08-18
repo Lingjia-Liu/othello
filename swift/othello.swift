@@ -71,10 +71,9 @@ func getPosition() -> [Int] {
  * Takes the current board state and hand info and computes the result.
  * Retuns true if the hand was legal, false otherwise.
  */
-func applyHand(board: [[Int]], x: Int, y: Int, val: Int) -> Bool {
+func applyHand(var board: [[Int]], x: Int, y: Int, val: Int) -> Bool {
     if board[x][y] == 0 {
-        // TODO: なぜかこの代入がエラーになる
-//        board[x][y] = val
+        board[x][y] = val
         // TODO: ひっくりかえす
         return true
     } else {
@@ -106,7 +105,7 @@ while true {
     legal = applyHand(board, x, y, whose)
     
     if legal {
-        board[x][y] = whose
+//        board[x][y] = whose
         printBoard(board)
         whose += 1
         if whose == 3 {
