@@ -31,9 +31,20 @@ func getInitialBoard() -> [[Int]] {
  * Prints the board, prettified.
  */
 func printBoard(board: [[Int]]) {
+    var black = 0
+    var white = 0
     for row in board {
         println(row)
+        for el in row {
+            if el == 1 {
+                black++
+            } else if el == 2 {
+                white++
+            }
+        }
     }
+    println()
+    println("Black: \(black)   White: \(white)")
 }
 
 
@@ -152,6 +163,7 @@ while true {
     var next: [[Int]] = applyHand(board, x, y, whose)
     
     if next.count > 0 {
+        println()
         printBoard(next)
         board = next
         whose += 1
